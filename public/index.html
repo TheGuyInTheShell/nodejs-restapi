@@ -1,11 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      var onReponse = async (googleCredentials) => {
+        await fetch("auth/google", {
+          method: "post",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(googleCredentials),
+        });
+      };
+    </script>
     <title>Document</title>
-</head>
-<body>
-    Hola qlq parce
-</body>
+  </head>
+  <body>
+    <h2>Google sign in</h2>
+    <hr />
+    <div
+      id="g_id_onload"
+      data-client_id="713861937997-7ce80tr77km5j2jicap7nddvc6p7j22k.apps.googleusercontent.com"
+      data-context="signin"
+      data-ux_mode="popup"
+      data-callback="onReponse"
+      data-auto_prompt="false"
+    ></div>
+
+    <div
+      class="g_id_signin"
+      data-type="standard"
+      data-shape="rectangular"
+      data-theme="outline"
+      data-text="signin_with"
+      data-size="large"
+      data-logo_alignment="left"
+    ></div>
+    <script src="https://accounts.google.com/gsi/client" async></script>
+  </body>
 </html>

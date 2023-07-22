@@ -1,14 +1,33 @@
-const {Router} = require('express');
+const { Router } = require("express");
 const router = Router();
-const {getUsers, postUsers, deleteUsers, putUsers} = require('../controllers/users');
+const {
+  getUsers,
+  postUsers,
+  deleteUsers,
+  putUsers,
+} = require("../controllers/users");
 
-router.get('/', getUsers)
+const validatePost = require("../middlewares/user/validatePost");
+const validatePut = require("../middlewares/user/validatePut");
+const validateGet = require("../middlewares/user/validateGet");
+const validateDelete = require("../middlewares/user/validateDelete");
+const validateJwt = require("../middlewares/validateJwt");
+const validateRole = require("../middlewares/validateRole");
 
-router.post('/', postUsers)
+router.get(
+  "/",
+  [validateJwt, validateRole( ["ADMIN_ROLE", "USER_ROLE"] ), ...validateGet],
+  getUsers
+);
 
-router.delete('/:id', deleteUsers)
+router.post("/", validatePost, postUsers);
 
-router.put('/', putUsers)
+router.delete(
+  "/:id",
+  [validateJwt, validateRole( ["ADMIN_ROLE"] ), ...validateDelete],
+  deleteUsers
+);
 
+router.put("/:id", [validateJwt, ...validatePut], putUsers);
 
 module.exports = router;
